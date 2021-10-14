@@ -1,0 +1,12 @@
+{
+  "name": "chat-socket",
+  "version": "1.0.0",
+  "description": "this is chat-socket server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
