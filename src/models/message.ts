@@ -1,7 +1,7 @@
 export default class Message {
-    messageBody: String;
-    userId: String;
-    channelId: String;
+    messageBody: string;
+    userId: string;
+    channelId: string;
 
     constructor(messageBody: string, userId: string, channelId: string) {
         this.messageBody = messageBody;
