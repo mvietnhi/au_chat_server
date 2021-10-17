@@ -1,0 +1,4 @@
+dist
+_temp
+node_modules
+**/*.js
