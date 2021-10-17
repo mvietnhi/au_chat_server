@@ -4,6 +4,7 @@
   "description": "this is chat-socket server",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "start": "tsc && node dist/index.js"
   },
   "keywords": [],
