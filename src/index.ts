@@ -10,9 +10,9 @@ app.get('/test', (req, res) => {
   res.send("Node Server is running. Yay!!")
 })
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(app, (req, res) => {
   res.statusCode = 200;
-  const msg = 'new!\n'
+  const msg = 'v1'
   res.end(msg);
 });
 
