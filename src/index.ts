@@ -1,22 +1,34 @@
 import http from 'http';
 import Message from './models/message';
-import connectToDB from "./db/index.js"; 
+import dotenv from 'dotenv';
+dotenv.config();
+import connectToDB from "./db/index.js";
+import routes from './routes';
+import express from 'express';
 
 const port = process.env.PORT || 3000;
-// connectToDB();
+connectToDB();
 
-const app = require('express')()
-app.get('/test', (req, res) => {
-  res.send("Node Server is running. Yay!!")
-})
+const app = require('express')();
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-const server = http.createServer(app, (req, res) => {
-  res.statusCode = 200;
-  const msg = 'v1'
-  res.end(msg);
+app.server = http.createServer(app);
+app.use(routes);
+app.get('/', (req, res) => {
+  res.json({ message: 'Chat API is ALIVE!' })
 });
+// app.get('/test', (req, res) => {
+//   res.send("Node Server is running. Yay!!")
+// })
 
-const io = require('socket.io')(server);
+// const server = http.createServer(app, (req, res) => {
+//   res.statusCode = 200;
+//   const msg = 'v1'
+//   res.end(msg);
+// });
+
+const io = require('socket.io')(app.server);
 
 io.on('connection', socket => {
   console.log('a user connected');
@@ -27,6 +39,5 @@ io.on('connection', socket => {
     socket.emit('messageCreated', { messageBody, userId, channelId })
   })
 });
-server.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}/`);
-});
+app.server.listen(port);
+console.log(`Started on port ${app.server.address().port}`);
