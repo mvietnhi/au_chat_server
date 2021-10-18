@@ -13,7 +13,7 @@ describe("my awesome project", () => {
     clientSocket.close();
   });
 
-  test("test connection", (done) => {
+  it("test connection", (done) => {
     clientSocket = new Client('https://au-chat-server.herokuapp.com');
     clientSocket.emit("newMessage", "t1", "t2", "t3" );
 
