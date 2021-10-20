@@ -1,6 +1,7 @@
 import http from 'http';
 import Message from './models/message';
 import Room from './models/room';
+import User from './models/user';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -52,6 +53,18 @@ const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
 
 const io = require('socket.io')(app.server);
+io.use(async (socket, next) => {
+  try {
+    console.log('userid', socket.request._query['userId']);
+    console.log('socket id', socket.id);
+    const result = await User.findOneAndUpdate({
+      _id: socket.request._query['userId']
+    }, {socketId: socket.id});
+  } catch (error) {
+    return error;
+  }
+  next();
+});
 
 io.on('connection', socket => {
   console.log('a user connected');
@@ -75,6 +88,13 @@ io.on('connection', socket => {
       console.log('new channel created', room._id);
       io.emit("roomCreated", { name: room.name, id: room._id });
     });
+  });
+
+  socket.on('sendMessage', async function (data) {    
+    console.log('sendMessage', data);
+    let query = User.findById(data['toUserId']);
+    let user = await query.exec();
+    io.to(user.socketId).emit('addMessageResponse', data);
   });
 
   socket.on('join', ({ name, room }) => {

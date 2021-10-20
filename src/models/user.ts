@@ -14,6 +14,7 @@ const userSchema = new Schema({
         type: String,
         required: true
       },
+    socketId: String,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });
