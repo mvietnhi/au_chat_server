@@ -8,6 +8,7 @@ dotenv.config();
 import connectToDB from "./db/index.js";
 import routes from './routes';
 import express from 'express';
+import errorHandler from './middlewares/errorHandler';
 
 const port = process.env.PORT || 3000;
 connectToDB();
@@ -115,3 +116,4 @@ io.on('connection', socket => {
 });
 app.server.listen(port);
 console.log(`Started on port ${app.server.address().port}`);
+app.use(errorHandler);

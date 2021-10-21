@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 import { Router } from 'express';
 import bodyParser from 'body-parser';
 import User from '../models/user';
+import { userService } from '../services/userService';
+import returnSuccess from '../utilities/successHandler';
+import authHandler from '../middlewares/authHandler';
 
 export default () => {
     let api = Router();
@@ -20,6 +23,49 @@ export default () => {
             }
             res.status(200).json({ message: 'User register' });
           });
+    });
+
+    api.post('/login', async (req, res, next) => {
+      try {
+        const { email, password } = req.body;
+        const userInfo = await userService.login(email, password);
+        if (userInfo == null) {
+          res.status(200).json({
+            success: false,
+            message: 'Login fail',
+          });
+        }
+        returnSuccess(200, res, 'Login successfully', userInfo);
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    api.use(authHandler);
+
+    api.get('/list', async (req, res, next) => {
+      try {
+        const { value } = req.query;
+            if (!value) {
+                const allUsers = await userService.getAllUsers();
+                returnSuccess(200, res, 'Got list', allUsers)
+            } else {
+                console.log(req.query)
+                const resultObject = await userService.findUsers(req.query);
+                returnSuccess(200, res, 'Got an user list', resultObject);
+            }
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    api.post('/logout', async (req, res, next) => {
+      try {
+        var expiredUser = await userService.setExpirationDate(req.body._id);
+            returnSuccess(200, res, 'Logged out', null);
+      } catch (error) {
+        next(error);
+      }
     });
 
     return api;
