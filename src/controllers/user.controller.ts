@@ -45,8 +45,8 @@ export default () => {
 
     api.get('/list', async (req, res, next) => {
       try {
-        const { value } = req.query;
-            if (!value) {
+        const { key } = req.query;
+            if (!key) {
                 const allUsers = await userService.getAllUsers();
                 returnSuccess(200, res, 'Got list', allUsers)
             } else {

@@ -1,11 +1,19 @@
-export default class Message {
-    messageBody: string;
-    userId: string;
-    channelId: string;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-    constructor(messageBody: string, userId: string, channelId: string) {
-        this.messageBody = messageBody;
-        this.userId = userId;
-        this.channelId = channelId;
-    }
-}
+const messageSchema = new Schema({
+    userId: String,
+    toUserId: String,
+    content: String,
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
+    },
+})
+export default messageSchema
+
+// export default mongoose.model("Message", messageSchema);

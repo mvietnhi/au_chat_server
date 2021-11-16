@@ -9,7 +9,9 @@ import connectToDB from "./db/index.js";
 import routes from './routes';
 import express from 'express';
 import errorHandler from './middlewares/errorHandler';
-
+import { messageRepo } from './repositories/messageRepo'
+import message from './models/message';
+import Conversation from './models/conversation';
 const port = process.env.PORT || 3000;
 connectToDB();
 
@@ -94,6 +96,12 @@ io.on('connection', socket => {
   socket.on('sendMessage', async function (data) {    
     console.log('sendMessage', data);
     let query = User.findById(data['toUserId']);
+    let userId = data['userId'];
+    //save messgage
+    await messageRepo.saveMessage(data['message'], data['userId'], data['toUserId'])
+    // // find message
+    // const chatHistory = await messageRepo.loadMessages(1, data['userId'], data['toUserId'])
+    // console.log("loaded mess", chatHistory.messages)
     let user = await query.exec();
     io.to(user.socketId).emit('addMessageResponse', data);
   });
