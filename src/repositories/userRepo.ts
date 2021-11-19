@@ -1,4 +1,5 @@
 import User from '../models/user';
+import Conversation from '../models/conversation';
 
 export const userRepo = {
 
@@ -16,6 +17,10 @@ export const userRepo = {
             // .select(['email', 'name'])
             .sort(sortOrder)
         return await query.exec();
+    },
+    async findFriends(id) {
+        let friends = await User.find({ friendIds: id })
+        return friends;
     },
     async updateExpDate(filterObject, expSeconds) {
         var expirationDate = new Date();

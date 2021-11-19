@@ -1,12 +1,17 @@
 import Message from '../models/message';
 import Conversation from '../models/conversation';
+import User from '../models/user';
 
 export const messageRepo = {
 
     async saveMessage(message: String, userId: String, toUserId: String) {
         let channelId = getChannelId(userId, toUserId)
         let messageObjects = [{ content: message, userId, toUserId }]
-        return await Conversation.findOneAndUpdate({ channelId: channelId }, { $push: { messages: messageObjects } }, { upsert: true })
+
+        let conversation = await Conversation.findOneAndUpdate({ channelId: channelId }, { $push: { messages: messageObjects } }, { upsert: true })
+        await User.findByIdAndUpdate(userId, { $addToSet: { friendIds: toUserId } })
+        await User.findByIdAndUpdate(toUserId, { $addToSet: { friendIds: userId } })
+        return conversation
     },
 
     async loadMessages(page: number, userId: String, toUserId: String, limit: number = 10): Promise<any> {

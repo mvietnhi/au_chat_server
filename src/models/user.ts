@@ -19,6 +19,7 @@ const userSchema = new Schema({
     expirationDate: {
         type: Date
     },
+    friendIds: Array,
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
 });

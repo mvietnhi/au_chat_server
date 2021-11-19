@@ -7,6 +7,9 @@ export const userService = {
     async findUsers(searchParams) {
         return await userRepo.findUsers(searchParams);
     },
+    async findFriends(id) {
+        return await userRepo.findFriends(id);
+    },
     async login(email, password) {
         const filterObject = { email: email }
         let user = await userRepo.updateExpDate(filterObject, 86400);
