@@ -28,6 +28,7 @@ export default () => {
   api.post("/login", async (req, res, next) => {
     try {
       const { email, password } = req.body;
+
       const userInfo = await userService.login(email, password);
       if (userInfo == null) {
         res.status(200).json({

@@ -43,6 +43,7 @@ userSchema.methods.validPassword = async function (password) {
     };
   }
 };
+
 userSchema.methods.generateJWT = function () {
   return jwt.sign(
     {
