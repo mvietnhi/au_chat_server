@@ -138,9 +138,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// app.server.listen(port);
-// console.log(`Started on port ${app.server.address().port}`);
-// app.use(errorHandler);
-app.server.listen(port); // hiiiiiiiiiiiiiiiiiiiiiiiiiiiiii fix coflict 2
-console.log(`Started on port ${app.server.address().port}`); // line 2 fix coflict 2
-app.use(errorHandler);
+app.server.listen(port);
+console.log(`Started on port ${app.server.address().port}`);
+app.use(errorHandler); // command at here
