@@ -1,8 +1,8 @@
-import express from 'express';
-import user from '../controllers/user.controller';
+import express from "express";
+import user from "../controllers/user.controller";
 
 let router = express();
 
-router.use('/user', user());
+router.use("/user", user());
 
 export default router;
