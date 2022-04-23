@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "tsc && node dist/src/index.js",
+    "local:build": "tsc -w",
+    "local:run": "nodemon dist/src/index.js",
+    "local": "concurrently npm:local:*",
     "test": "jest"
   },
   "keywords": [],
