@@ -138,9 +138,9 @@ io.on("connection", (socket) => {
   });
 });
 
-app.server.listen(port);
-console.log(`Started on port ${app.server.address().port}`);
-app.use(errorHandler);
+// app.server.listen(port);
+// console.log(`Started on port ${app.server.address().port}`);
+// app.use(errorHandler);
 
 
 
